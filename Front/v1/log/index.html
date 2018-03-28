@@ -1,0 +1,65 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="bootstrap.min.css">
+</head>
+
+<body>
+    <div class="alert-success" id="winner"></div>
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>
+                    <button id="th-client" class="btn btn-warning">Cliente</button>
+                </th>
+                <th>Data</th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+
+        </tbody>
+    </table>
+    <script src="jquery.js"></script>
+    <script>
+        $(function () {
+            var orders = undefined;
+
+            setInterval(function () {
+                $.ajax({
+                    url: "http://localhost:8080/storeapi/v2/orders",
+                    success: function (data) {
+                        $("#tbody").html('');
+                        orders = data;
+                        
+                        data.forEach(order => {
+                            date = new Date(order.date);
+                            var dateString = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' ' + date.getHours() + ' : ' + date.getMinutes();
+
+                            $("#tbody").append("<tr><td>" + order.client + "</td><td>" + dateString + "</td></tr>")
+                        });
+                    }
+                })
+            }, 5000);
+
+            $('#th-client').on('click', function () {
+                var result = [];
+                for (let index = 0; index < orders.length; index++) {
+                    const order = orders[index];
+                    if(!result[order.client]){
+                        result[order.client] = {name: order.client, count: 1};
+                    }else{
+                        result[order.client].count++;
+                    }
+                }
+
+                $('#winner').html('');
+                for(i in result){ 
+                    var element = result[i];
+                    $('#winner').append('<div>' + element.name + ' - ' + element.count + '</div>');
+                };
+            })
+        });
+    </script>
+</body>
+
+</html>

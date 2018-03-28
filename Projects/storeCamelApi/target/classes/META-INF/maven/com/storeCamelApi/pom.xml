@@ -1,0 +1,129 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com</groupId>
+	<artifactId>storeCamelApi</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>storeCamelApi</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<activemq-version>5.4.2-fuse-03-09</activemq-version>
+		<camel-version>2.6.0-fuse-01-09</camel-version>
+		<xbean-spring-version>3.7</xbean-spring-version>
+	</properties>
+
+	<dependencies>
+		<!-- Core Camel -->
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-core</artifactId>
+			<version>${camel-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-spring</artifactId>
+			<version>${camel-version}</version>
+		</dependency>
+
+		<!-- Embedded ActiveMQ broker -->
+		<dependency>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-core</artifactId>
+			<version>${activemq-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.xbean</groupId>
+			<artifactId>xbean-spring</artifactId>
+			<version>${xbean-spring-version}</version>
+		</dependency>
+
+		<!-- ActiveMQ connectivity for Camel -->
+		<dependency>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-camel</artifactId>
+			<version>${activemq-version}</version>
+		</dependency>
+
+		<!-- Add support for JAXB marshaling -->
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-jaxb</artifactId>
+			<version>${camel-version}</version>
+		</dependency>
+
+		<!-- Add support for CSV marshaling -->
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-bindy</artifactId>
+			<version>${camel-version}</version>
+		</dependency>
+
+		<!-- Add support for HTTP -->
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-jetty</artifactId>
+			<version>${camel-version}</version>
+		</dependency>
+
+	</dependencies>
+
+	<!-- repositories are actual descriptions/links to remote maven repositories 
+		that we need to access to obtain our dependencies -->
+	<repositories>
+		<repository>
+			<id>fusesource-releases</id>
+			<name>FuseSource Release Repository</name>
+			<url>http://repo.fusesource.com/nexus/content/groups/public</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+	</repositories>
+
+	<!-- pluginRepositories are actual descriptions/links to remote maven repositories 
+		that we need to access to obtain our maven plugins -->
+	<pluginRepositories>
+		<pluginRepository>
+			<id>fusesource-releases</id>
+			<name>FuseSource Release Repository</name>
+			<url>http://repo.fusesource.com/nexus/content/groups/public</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<build>
+		<defaultGoal>install</defaultGoal>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+
+			<!-- allows the route to be ran via 'mvn camel:run' -->
+			<plugin>
+				<groupId>org.apache.camel</groupId>
+				<artifactId>camel-maven-plugin</artifactId>
+				<version>${camel-version}</version>
+			</plugin>
+
+		</plugins>
+	</build>
+</project>

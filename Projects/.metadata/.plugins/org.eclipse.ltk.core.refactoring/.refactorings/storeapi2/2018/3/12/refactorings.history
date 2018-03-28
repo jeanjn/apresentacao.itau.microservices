@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;CheckoutControllerTest.java&apos; to &apos;com.storeapi2.controllers.CheckoutControllerTest.java&apos;&#x0D;&#x0A;- Original project: &apos;storeapi2&apos;&#x0D;&#x0A;- Destination element: &apos;com.storeapi2.controllers.CheckoutControllerTest.java&apos;&#x0D;&#x0A;- Original element: &apos;com.storeapi2.controllers.CheckoutControllerTest.java&apos;" description="Copy compilation unit" destination="/src\/test\/java&lt;com.storeapi2.controllers{CheckoutControllerTest.java" element1="/src\/test\/java&lt;com.storeapi2.controllers{CheckoutControllerTest.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1521648872299" units="1" version="1.0"/>
+</session>

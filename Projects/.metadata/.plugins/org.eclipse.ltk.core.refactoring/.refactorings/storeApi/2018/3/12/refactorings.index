@@ -1,0 +1,5 @@
+1521576113907	Rename type 'Client'
+1521576274698	Rename method 'addClient'
+1521576310532	Rename type 'ClientControl'
+1521576343724	Rename local variable 'client'
+1521576419759	Rename type 'LogController'

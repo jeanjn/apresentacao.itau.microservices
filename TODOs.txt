@@ -1,0 +1,6 @@
+treinar apresentação
+treinar apresentação das lojas simulando os erros e explicações
+
+pedir para bruno e sato testarem as apis que estarão no ar para ver se não encontram problemas
+
+verificar se a memória é limpa após um tempo, para não correr o risco da memória se manter com os testes feitos

@@ -1,0 +1,90 @@
+package com.storeapi2.controllers;
+
+import static org.junit.Assert.assertTrue;
+
+import java.util.Random;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.RequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.storeapi2.dao.ModelDAO;
+import com.storeapi2.models.Order;
+import com.storeapi2.models.Product;
+
+@RunWith(SpringRunner.class)
+@WebMvcTest
+public class OrderControllerTest {
+
+	Gson gson;
+	Random random = new Random();
+	Product productTest;
+
+	@Autowired
+	private MockMvc mockMvc;
+
+	@Before
+	public void setUp() throws Exception {
+		gson = new GsonBuilder().create();
+
+		productTest = new Product(0, "Caixa de bombom", 7,
+				"Caixa de bombom nestlê, muito utilizada para comemorar bons momentos e demonstrar APIs!",
+				"https://www.paodeacucar.com/img/uploads/1/456/529456.jpg?type=product");
+
+		ModelDAO<Product> productDao = new ModelDAO<Product>(Product.class);
+		productDao.save(productTest);
+	}
+
+	@Test
+	public void checkoutTest() throws Exception {
+		int countFail = 0;
+		int countSuccess = 0;
+		int count = 0;
+
+		while (count < 1000) {
+			RequestBuilder requesBuilder = MockMvcRequestBuilders.post("/storeapi/v2/checkout")
+					.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)
+					.content(new ObjectMapper().writeValueAsString(getRandomOrder()));
+
+			MvcResult result = mockMvc.perform(requesBuilder).andReturn();
+			
+			count++;
+			
+			if(result.getResponse().getStatus() != HttpStatus.OK.value()) {
+				countFail++;
+			}else {
+				countSuccess++;
+			}
+		}
+		
+		RequestBuilder requesBuilder = MockMvcRequestBuilders.get("/storeapi/v2/orders")
+				.accept(MediaType.APPLICATION_JSON);
+
+		Thread.sleep(60000 * 10); //espera 10 minutos para ver se a variavel estática continuará
+		
+		MvcResult result = mockMvc.perform(requesBuilder).andReturn();
+		String jsonResult = result.getResponse().getContentAsString();
+		Order[] orders = gson.fromJson(jsonResult, Order[].class);
+		
+		assertTrue(orders.length == countSuccess);
+	}
+
+	private Order getRandomOrder() {
+		Order order = new Order();
+		order.setClient("Client " + random.nextInt());
+		order.setProduct(productTest.getName());
+		return order;
+	}
+}
